@@ -55,11 +55,9 @@ protected List<ReactPackage> getPackages() {
 
 3. 设置属性， 使用@ReactProp （or @ReactPropGroup）注解原生代码中设置属性的方法，例如:
 ``` java
-    @ReactMethod
-    public void show(String msg, int duration, Callback cb){
-        Toast.makeText(getReactApplicationContext(),msg,duration).show();
-        cb.invoke("native");
-
+    @ReactProp(name = "src")
+    public void setUrl(WebView view,@Nullable String url) {
+        view.loadUrl(url);
     }
 ```
 #### 需要注意：
