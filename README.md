@@ -18,11 +18,10 @@ Example for calling native modules and UI components in React Native
 ``` java
     @ReactMethod
     public void show(String msg, int duration, Callback callback){
-        //Toast.makeText(getReactApplicationContext(),msg,duration).show();
-        //callback.invoke(msg+" callback");
+        Toast.makeText(getReactApplicationContext(),msg,duration).show();
+        callback.invoke(msg+" callback");
     }
 ``` 
-    
 #### 需要注意：
 * 方法的返回类型必须为void， 因为React Native的跨语言访问是异步进行的，
 * 想要给JavaScript返回一个值的办法是使用回调函数或者发送事件
@@ -37,8 +36,8 @@ Example for calling native modules and UI components in React Native
 protected List<ReactPackage> getPackages() { 
    return Arrays.<ReactPackage>asList( 
       new MainReactPackage(), 
-          new MyPackage() 
-  ); 
+          new MyPackage() //加入这一行，进行注册
+      ); 
 } 
 ```
 
