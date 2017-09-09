@@ -30,6 +30,25 @@ Example for calling native modules and UI components in React Native
 4. 创建模块Package 需要实现接口 ReactPackage
 主要有两个方法 1. createViewManagers  2 createNativeModules
 
+形如：
+``` java
+public class MyPackage implements ReactPackage {
+    @Override
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+        List<ViewManager> components = new ArrayList<>();
+        components.add(new MyWebView());
+        return components;//若此处没有返回值， 则 可以 return Collections.emptylist()
+        }
+
+    @Override
+    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
+        List<NativeModule> modules = new ArrayList<>();
+        modules.add(new MyToast(reactContext));
+        return modules;
+    }
+}
+``` 
+
 5. 在 MAinApplication的getPackages（）中注册
 ``` java
 @Override 
@@ -56,11 +75,12 @@ protected List<ReactPackage> getPackages() {
 3. 设置属性， 使用@ReactProp （or @ReactPropGroup）注解原生代码中设置属性的方法，例如:
 ``` java
     @ReactProp(name = "src")
-    public void setUrl(WebView view,@Nullable String url) {
+    public void setUrl(WebView view, @Nullable String url) {
         view.loadUrl(url);
     }
 ```
 #### 需要注意：
+* 这里name的值即是该控件在JS调用时的名称
 * 方法的第一个参数是要修改属性的视图实例，第二个参数是要设置的属性值。
 * 方法的返回值类型必须为void，而且访问控制必须被声明为public。
 * JavaScript所得知的属性类型会由该方法第二个参数的类型来自动决定。
